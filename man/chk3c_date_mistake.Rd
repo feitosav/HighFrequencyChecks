@@ -36,15 +36,17 @@ This function check that all interviews in the dataset start after the actual fi
 There is an option to automatically mark for deletion the surveys which have started before the first day of data collection.
 }
 \examples{
-\dontrun{
-df <- sample_dataset
-dates <- -c("survey_start","end_survey")
-sc <- "survey_consent"
-st <- "2018-11-11"
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+{
+ds <- HighFrequencyChecks::sample_dataset
+dates <- c("survey_start","end_survey")
+survey_consent <- "survey_consent"
+start_collection <- "2018-11-11"
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
-chk3c_date_mistake(df, dates, sc, st, rc, dl)
+
+list_date_mistake3 <- chk3c_date_mistake(ds, dates, survey_consent,start_collection, reportingcol, delete)
+head(list_date_mistake3[[2]], 10)
 }
 }
 \author{

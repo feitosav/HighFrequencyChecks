@@ -21,11 +21,12 @@ This function display the average interview duration per enumerator.
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+ds <- HighFrequencyChecks::sample_dataset
 dt <- c("survey_start","end_survey")
-eid <- "enumerator_id"
+enumeratorID <- "enumerator_id"
 
-chk6b_duration(df, dt, eid)
+log <- chk6b_duration(ds, dt, enumeratorID)
+head(log,10)
 }
 }
 \author{

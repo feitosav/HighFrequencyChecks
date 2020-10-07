@@ -33,14 +33,16 @@ This function check that all interviews in the dataset start before they end.
 There is an option to automatically mark for deletion the surveys which have an ending date/time before the starting ones.
 }
 \examples{
-\dontrun{
-df <- sample_dataset
-dates <- -c("survey_start","end_survey")
-sc <- "survey_consent"
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+{
+ds <- HighFrequencyChecks::sample_dataset
+survey_consent <- "survey_consent"
+dates <- c("survey_start","end_survey")
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
-chk3b_date_mistake(df, uuid, sc, rc, dl)
+
+list_date_mistake2 <- chk3b_date_mistake(ds, survey_consent,dates, reportingcol, delete)
+head(list_date_mistake2[[2]], 10)
 }
 }
 \author{

@@ -27,11 +27,14 @@ logf  the report
 This function report the outlier durations for the surveys
 }
 \examples{
-\dontrun{
-df <- sample_dataset
-dt <- c("survey_start","end_survey")
+{
+ds <- HighFrequencyChecks::sample_dataset
+dates <- c("survey_start","end_survey")
+sdval <- 5
+reportingcol <- c("enumerator_id","X_uuid")
 
-chk5d_duration_outliers(df, dt)
+log <- chk5d_duration_outliers(ds, dates, sdval, reportingcol)
+head(log,10)
 }
 }
 \author{
