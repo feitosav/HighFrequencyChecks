@@ -14,19 +14,21 @@ enumeratorSurveysDuration(ds = NULL, dates = NULL, enumeratorID = NULL)
 \item{enumeratorID}{name as a string of the field in the dataset where the enumerator ID is stored}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function display the average interview duration per enumerator.
 }
 \examples{
-\dontrun{
+{
 ds <- HighFrequencyChecks::sample_dataset
-dt <- c("survey_start","end_survey")
+dates <- c("survey_start","end_survey")
 enumeratorID <- "enumerator_id"
 
-log <- enumeratorSurveysDuration(ds, dt, enumeratorID)
-head(log,10)
+list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds,
+                                                         dates,
+                                                         enumeratorID)
+head(ret_log,10)
 }
 }
 \author{

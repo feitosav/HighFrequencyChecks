@@ -14,20 +14,22 @@ surveyMissingValues(ds = NULL, enumeratorID = NULL, enumeratorcheck = FALSE)
 \item{enumeratorcheck}{specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function provide a report showing the percentage of missing values (NA) for each fields.
 This report can be global (all the surveys) or displayed for each enumerator ID
 }
 \examples{
-\dontrun{
-df <- HighFrequencyChecks::sample_dataset
+{
+ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
-head(log,10)
+list[dst,ret_log,var,graph] <- surveyMissingValues(ds,
+                                                   enumeratorID,
+                                                   enumeratorcheck)
+head(ret_log,10)
 }
 }
 \author{
