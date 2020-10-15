@@ -5,7 +5,7 @@ library(magrittr)
 ## pull live data feed from your kobo project
 # devtools::install_github("UNHCR-WEB/hcrdata")
 library(hcrdata)
-ds <-
+data <-
   hcrdata::hcrfetch(
     src = "kobo",
     dataset = "High Frequency Survey - Remote or in-person interviews",
@@ -15,7 +15,7 @@ ds <-
   #tibble::as_tibble() %>%
   purrr::set_names(~stringr::str_replace_all(., "(\\/)", "."))
 
-ds <- as.data.frame(ds)
+ds <- as.data.frame(data)
 names(ds)
 str(ds)
 
@@ -31,25 +31,7 @@ strptime(ds[,dates[1]],"%Y-%m-%dT%R")
 
 strptime(ds[,dates[1]],"%Y-%m-%dT%R")
 
-SurveyLength = as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") -
-                                     strptime(ds[,dates[1]],"%Y-%m-%dT%R")),
-                                  units = "secs") / 60
 
-SurveyLength = as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-                                      readr::parse_datetime(as.character(ds[,dates[1]]))),
-                                  units = "secs") / 60
-
-surveydte <- "today"
-ds$today <- parse_date(as.character(ds$today))
-str(ds$today)
-
-
-## Official date for start of data collection
-startdate <- "11/09/2020"
-
-minduration <- 10
-#Standard value
-sdvalue <- 2
 
 # formulas as a list of string used to compute the final number
 # of eligible surveys  and the variance from the target
@@ -62,123 +44,238 @@ formul = c("done-no-not_eligible-deleted",
 
 ## consent #####
 
-consent <- "screen.Consent"
 
-#Variable recording multiples screening questions
 
-questions <- c( "ConsentInterview2"  ,
-                "screen.YesDisplaced"    ,
-                "screen.YesAtrisk" ,
-                "screen.DisplacedNo" ,
-                "screen.YesOver15" ,
-                "screen.Over15No",
-                "screen.Consent"  )
+survey_consent <- "ConsentScore"
+
+
+ds$uuid <- ds$"_uuid"
+UniqueID <- "uuid"
+
 
 ## Variable of interest ####
-reportingcol <- c("username","_uuid")
+reportingcol <- c("username","uuid")
+View(ds[, c("username","uuid")])
 
-
-
-enumid <- "username"
-uuid <- "_uuid"
-
-
-#minans answers per specific questions
-minans <- 3
-
+levels(as.factor(ds$username))
+enumeratorID <- "username"
+#'
+## Setting dates
+surveydate <- "today"
+ds$today
+dateformat <- "%Y/%m/%d"
+start_collection <- "2018-11-11"
+minduration <- 30
+sdval <- 2
+#HHSize <-"consent_received.respondent_info.hh_size"
+#'
+#'
+## Setting action on dataset
 delete <- FALSE
-
-### Starting check #####
-
-list <- chk5b_duration_Xmin(ds, survey_consent, dates,  reportingcol, minduration, delete)
-sample_dataset <- list[[1]]
-
-if(nrow(list[[2]])>0){
-  DT::datatable(list[[2]],
-                caption = paste0("Detected records with errors - Interviews duration shorter than ", mindur))
-} else {
-  cat(paste0(">__No errors__: No interviews duration shorter than ", mindur))
-}
-
-list <- chk2b_unique_id(ds, UniqueID, survey_consent, reportingcol, delete)
-ds <- dts_unique_id
-
-if(nrow(err_unique_id)>0){
-  DT::datatable(err_unique_id,
-                caption = "Detected records with errors: Duplicate respondent ID")
-} else {
-  cat(">__No errors__: All records have a unique repondent ID")
-}
-
-
-## Checking date ###########
-list <- chk3a_date_mistake(ds,
-                             consent,
-                             dates,
-                             reportcol,
-                             FALSE)
-data <- list[[1]]
-
-if(nrow(list[[2]])>0){
-  DT::datatable(err_date_mistake,
-                caption = "Detected records with errors")
-} else {
-
-  cat(">__No errors__: All interviews ended on the same day as they started")
-}
+correct <- FALSE
+#'
+## Setting enumerator
+enumeratorcheck <- FALSE
+otherpattern <- "_other$"  ## Dollar to indicate end of variable
+#'
+## Setting linked geodata
+# adm <- HighFrequencyChecks::admin
+# ds_site <- "union_name"
+# ds_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+# adm_site <- "Union"
+# pts <- HighFrequencyChecks::SamplePts
+# buff <- 10
+#'
+## setting questions to check
+ questions <-c("consent_received.food_security.spend_food",
+#       "consent_received.food_security.spend_medication",
+#       "consent_received.food_security.spend_education",
+#       "consent_received.food_security.spend_fix_shelter",
+#       "consent_received.food_security.spend_clothing",
+#       "consent_received.food_security.spend_hygiene",
+#       "consent_received.food_security.spend_fuel",
+#       "consent_received.food_security.spend_hh_items",
+#       "consent_received.food_security.spend_transport",
+#       "consent_received.food_security.spend_communication",
+#       "consent_received.food_security.spend_tobacco",
+#       "consent_received.food_security.spend_rent",
+#       "consent_received.food_security.spend_debts",
+       "consent_received.food_security.spend_other")
+ value <- 25000
 
 
-list[dts_date_mistake2,err_date_mistake2] <- chk3b_date_mistake(ds,
-                               consent,
-                               dates,
-                               reportcol,
-                               FALSE)
-#data <- dts_date_mistake2
+ minnbanswers <- 3
+#'
+#'
+## setting sampling plan
+# sf <- HighFrequencyChecks::SampleSize
+# dssite <- "union_name"
+# sfsite <- "Union"
+# sftarget <- "SS"
+# sfnbpts <- "TotPts"
 
-if(nrow(err_date_mistake2)>0){
-  DT::datatable(err_date_mistake2,
-                caption = "Detected records with errors: interviews ended before they start")
-} else {
-  cat(">__No errors__: All interviews ended before they start")
-}
+## based on the modalities in the consent variable
+## done defined independently
+# no -- specific to form - modality for consent
+# not eligibel idem
+# delete independently - define based on delete action
+
+## the following is a formula with minus (or potential add) - the elements to
+# be decided are both fixed
+
+levels(as.factor(ds$ConsentScore))
+formul <- c("done-no-deleted",
+               "done-no-deleted-SS")
+
+## This
+
+## site <- name of the var site in the form
+## SS <- integer name of sftarget
+## "provision" <- integer - sfnbpts - number of person available for interview per sampling unit
+
+colorder <- c("site","SS","Provision",
+              "done",#"not_eligible",
+                 "no",  ##modality in consent..
+              "deleted",
+              "yes",##modality in consent..
+              "final",
+              "variance")
+#'
+GenerateRmd(ds,
+              survey_consent,
+              reportingcol,
+              UniqueID,
+              dates,
+              surveydate,
+              start_collection,
+              dateformat,
+              minduration,
+              sdval,
+              HHSize,
+              delete,
+              correct,
+              enumeratorID,
+              enumeratorcheck,
+              otherpattern,
+              adm,
+              ds_site,
+              ds_coord,
+              adm_site,
+              pts,
+              buff,
+              questions,
+              value,
+              minnbanswers,
+              sf, dssite,
+              sfsite,
+              sftarget,
+              sfnbpts,
+              formul,
+              colorder)
 
 
-list[dts_date_mistake3,err_date_mistake3] <- chk3d_date_mistake(ds,
-                               consent,
-                               dates,
-                               reportcol,
-                               FALSE)
-#data <- dts_date_mistake3
+list_iscompleted <- isInterviewCompleted(ds,
+                                         survey_consent,
+                                         dates,
+                                         reportingcol,
+                                         delete)
+head(list_iscompleted[[2]],10)
 
-if(nrow(err_date_mistake3)>0){
-  DT::datatable(err_date_mistake3,
-                caption = "Detected records with errors - date are not in the future")
-} else {
-  cat(">__No errors__: records date are not in the future")
-}
+list_withconsent <- isInterviewWithConsent(ds,
+                                           survey_consent,
+                                           reportingcol,
+                                           delete)
+head(list_withconsent[[2]],10)
 
-## How many completed interview per day? ####
-reportlog_productivity <- chk7ai_productivity(ds,
-                                              surveydte,
-                                              dteformat,
-                                              consent)
-if(nrow(reportlog_productivity)>0){
-  DT::datatable(reportlog_productivity,
-                caption = paste0("Completed interview per day"))
-}
+list_site <- isInterviewInTheCorrectSite(ds,
+                                         adm,
+                                         ds_site,
+                                         ds_coord,
+                                         adm_site,
+                                         survey_consent,
+                                         reportingcol,
+                                         correct)
+head(list_site[[2]], 10)
 
-chk7aii_productivity_hist(ds,
-                          surveydte,
-                          dteformat,
-                          consent)
+list_sitept  <- isInterviewAtTheSamplePoint( ds, pts, ds_coord, buff, survey_consent, reportingcol, delete)
+head(list_sitept[[2]], 10)
+
+list_missing_id <- isUniqueIDMissing(ds, UniqueID, survey_consent, reportingcol, delete)
+head(list_missing_id[[2]], 10)
+
+list_unique_id <- isUniqueIDDuplicated(ds, UniqueID, survey_consent, reportingcol, delete)
+head(list_unique_id[[2]], 10)
 
 
-#### How many attempted interview per day and obtained consent?  ####
-reportlog_nb_status <- chk7bi_nb_status(ds,
-                                        surveydte,
-                                        dteformat,
-                                        consent)
-if(nrow(reportlog_nb_status)>0){
-  DT::datatable(reportlog_nb_status,
-                caption = paste0("attempted interview per day and obtained consent"))
-}
+list_date_mistake <- isSurveyOnMoreThanADay(ds, survey_consent,dates, reportingcol, delete)
+head(list_date_mistake[[2]], 10)
+
+list_date_mistake2 <- isSurveyEndBeforeItStarts(ds, survey_consent,dates, reportingcol, delete)
+head(list_date_mistake2[[2]], 10)
+
+list_date_mistake3 <- isSurveyStartedBeforeTheAssessment(ds, dates, survey_consent,start_collection, reportingcol, delete)
+head(list_date_mistake3[[2]], 10)
+
+list_date_mistake4 <- isSurveyMadeInTheFuture(ds, survey_consent,
+                                              dates, reportingcol, delete)
+head(list_date_mistake4[[2]], 10)
+
+log <- surveyMissingValues(ds, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
+
+log <- surveyDistinctValues(ds, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
+
+log <- surveyOtherValues(ds, otherpattern, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
+
+log <- surveyOutliers(ds, sdval, reportingcol, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
+
+log <- surveyBigValues(ds, questions, value,reportingcol, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
+
+assessmentDuration(ds, dates)
+
+list <- isInterviewTooShort(ds, survey_consent, dates,  reportingcol, minduration, delete)
+head(list[[2]], 10)
+
+list_duration_Xmin <- isInterviewTooShortForTheHouseholdSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
+head(list_duration_Xmin[[2]], 10)
+
+log <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
+head(log[[2]],10)
+
+## recheck my merge
+log <- enumeratorSurveysConsent(ds, survey_consent, enumeratorID)
+head(log[[2]],10)
+
+log <- enumeratorSurveysDuration(ds, dates, enumeratorID)
+head(log[[2]],10)
+
+log <- enumeratorProductivity(ds, surveydate, enumeratorID)
+head(log[[2]],10)
+
+log <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
+head(log[[2]],10)
+
+#log <- enumeratorIsLazy(ds, enumeratorID, questions, minnbanswers)
+head(log[[2]],10)
+
+log <- assessmentProductivity(ds, surveydate, dateformat, survey_consent)
+head(log[[2]],10)
+
+log <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
+head(log[[2]],10)
+log[[4]]
+
+log <- assessmentTrackingSheet(ds,
+                               sf,
+                               dssite,
+                               sfsite,
+                               survey_consent,
+                               sftarget,
+                               sfnbpts,
+                               formul,
+                               colorder)
+head(log[[2]],10)
