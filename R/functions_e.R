@@ -20,9 +20,9 @@
 #' surveyConsent <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds,
-#'                                                         surveyConsent,
-#'                                                         enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds=ds,
+#'                                                         surveyConsent=surveyConsent,
+#'                                                         enumeratorID=enumeratorID)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -46,7 +46,12 @@ enumeratorSurveysConsent <- function(ds=NULL,
   colnames(tmp)[2] <- "surveyConsent"
   logf <- reshape2::dcast(tmp,enumeratorID ~ surveyConsent, value.var = "pct")
   logf[is.na(logf)] <- 0
-  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=as.character(enumeratorID), y=pct, fill=surveyConsent)) + ggplot2::coord_flip()
+  graph <- ggplot2::ggplot(tmp) +
+    ggplot2::geom_col(ggplot2::aes(x=as.character(enumeratorID), y=pct, fill=surveyConsent)) +
+    ggplot2::theme_minimal() +
+    # ggplot2::theme(panel.grid.major.y=ggplot2::element_blank()) +
+    ggplot2::labs(x = "Enumerators ID", y="Percent", fill="Consent status") +
+    ggplot2::coord_flip()
   return(list(NULL,logf,NULL,graph))
 }
 
@@ -72,9 +77,9 @@ enumeratorSurveysConsent <- function(ds=NULL,
 #' dates <- c("survey_start","end_survey")
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds,
-#'                                                          dates,
-#'                                                          enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds=ds,
+#'                                                          dates=dates,
+#'                                                          enumeratorID=enumeratorID)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -103,7 +108,10 @@ enumeratorSurveysDuration <- function(ds=NULL,
                     overall_avg_duration,
                     perc_diff_avg = round(((duration_mean - overall_avg_duration) / overall_avg_duration) * 100, digits=2))
 
-  graph <- eval(parse(text=paste0("ggplot2::ggplot(ds) + ggplot2::geom_boxplot(ggplot2::aes(surveytime, as.character(", enumeratorID, ")), outlier.colour = 'red') + ggplot2::theme_light()")))
+  graph <- eval(parse(text=paste0("ggplot2::ggplot(ds) +
+                                  ggplot2::geom_boxplot(ggplot2::aes(surveytime, as.character(", enumeratorID, ")), outlier.colour = 'red') +
+                                  ggplot2::theme_minimal() +
+                                  ggplot2::labs(x = \"Survey duration\", y=\"Enumerators ID\")")))
   return(list(NULL,logf,NULL,graph))
 }
 
@@ -129,9 +137,9 @@ enumeratorSurveysDuration <- function(ds=NULL,
 #' surveyDate <- "survey_date"
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorProductivity(ds,
-#'                                                       surveyDate,
-#'                                                       enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorProductivity(ds=ds,
+#'                                                       surveyDate=surveyDate,
+#'                                                       enumeratorID=enumeratorID)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -154,7 +162,11 @@ enumeratorProductivity <- function(ds=NULL,
     summarize(days_worked = length(unique(.data[[ surveyDate ]])),
               total_surveys_done = n()) %>%
     mutate(daily_average = round(total_surveys_done / days_worked, digits = 2))
-  graph <- eval(parse(text=paste0("ggplot2::ggplot(logf) + ggplot2::geom_col(ggplot2::aes(x=as.character(", enumeratorID, "), y=daily_average)) + ggplot2::coord_flip()")))
+  graph <- eval(parse(text=paste0("ggplot2::ggplot(logf) +
+                                  ggplot2::geom_col(ggplot2::aes(x=as.character(", enumeratorID, "), y=daily_average)) +
+                                  ggplot2::theme_minimal() +
+                                  ggplot2::labs(x = \"Enumerators ID\", y=\"Daily average\") +
+                                  ggplot2::coord_flip()")))
   return(list(NULL,logf,NULL,graph))
 }
 
@@ -180,10 +192,12 @@ enumeratorProductivity <- function(ds=NULL,
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' surveyDate <- "survey_date"
+#' sdval<-2
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds,
-#'                                                               enumeratorID,
-#'                                                               surveyDate)
+#' list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds=ds,
+#'                                                               enumeratorID=enumeratorID,
+#'                                                               surveyDate=surveyDate,
+#'                                                               sdval=sdval)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -252,9 +266,9 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 #'                                consent_received.child_protection.boy_risk=3,
 #'                                consent_received.child_protection.girl_risk=3)
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds,
-#'                                                 enumeratorID,
-#'                                                 questionsEnumeratorIsLazy)
+#' list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds=ds,
+#'                                                 enumeratorID=enumeratorID,
+#'                                                 questionsEnumeratorIsLazy=questionsEnumeratorIsLazy)
 #' head(ret_log,10)
 #' }
 #' @export enumeratorIsLazy
@@ -314,8 +328,8 @@ enumeratorIsLazy <- function(ds=NULL,
 #'              "reportisUniqueIDDuplicated",
 #'              "reportisUniqueIDMissing")
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorErrorsDashboard(enumeratorID,
-#'                                                          reports)
+#' list[dst,ret_log,var,graph] <- enumeratorErrorsDashboard(enumeratorID=enumeratorID,
+#'                                                          reports=reports)
 #' print(graph)
 #' }
 #' @export enumeratorErrorsDashboard
@@ -332,8 +346,11 @@ enumeratorErrorsDashboard <- function(enumeratorID=NULL, reports=NULL){
   graph <- ggplot2::ggplot(tmp) +
     ggplot2::geom_col(ggplot2::aes(x=Error, y=Nb)) +
     ggplot2::scale_y_continuous(breaks=seq(0, max(tmp$Nb), by=ceiling(max(tmp$Nb)/5))) +
-    ggplot2::facet_wrap(vars(Enumerator), ncol=floor(40/length(unique(tmp$Error)))) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = .3, unit = "cm"), angle = 90, vjust = .5, hjust=1))
+    ggplot2::theme_light() +
+    ggplot2::labs(x = "Error types", y="Numbers") +
+    ggplot2::facet_wrap(ggplot2::vars(Enumerator), ncol=floor(40/length(unique(tmp$Error)))) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = .3, unit = "cm"), angle = 90, vjust = .5, hjust=1),
+                   panel.grid=ggplot2::element_line(linetype=3))
 
   return(list(NULL,NULL,NULL,graph))
 }

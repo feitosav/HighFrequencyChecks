@@ -19,8 +19,8 @@
 #' ds <- HighFrequencyChecks::sample_dataset
 #' dates <- c("survey_start","end_survey")
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDuration(ds,
-#'                                                   dates)
+#' list[dst,ret_log,var,graph] <- assessmentDuration(ds=ds,
+#'                                                   dates=dates)
 #' print(var)
 #'}
 #' @export assessmentDuration
@@ -40,8 +40,8 @@ assessmentDuration <- function(ds=NULL,
 
   # avg <- round(mean(surveytime), digits = 2)
   # tot <- round(sum(surveytime), digits = 2)
-  msg<-paste0("The total time of data collection is ", round(mean(surveytime), digits = 2),
-         " minutes and the average time per survey is ", round(sum(surveytime), digits = 2), " minutes")
+  msg<-paste0("The total time of data collection is ", round(sum(surveytime), digits = 2),
+         " minutes and the average time per survey is ", round(mean(surveytime), digits = 2), " minutes")
   return(list(NULL,NULL,msg,NULL))
 }
 
@@ -70,9 +70,13 @@ assessmentDuration <- function(ds=NULL,
 #' dates <- c("survey_start","end_survey")
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
+#' reportingColumns <- c(enumeratorID, uniqueID)
+#' sdval<-2
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds,
-#'                                                           dates)
+#' list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds=ds,
+#'                                                           dates=dates,
+#'                                                           sdval=sdval,
+#'                                                           reportingColumns=reportingColumns)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -136,10 +140,10 @@ assessmentDurationOutliers <- function(ds=NULL,
 #' dateFormat <- "%m/%d/%Y"
 #' surveyConsent <- "survey_consent"
 #'
-#' list[dst,ret_log,var,graph] <- assessmentProductivity(ds,
-#'                                                       surveyDate,
-#'                                                       dateFormat,
-#'                                                       surveyConsent)
+#' list[dst,ret_log,var,graph] <- assessmentProductivity(ds=ds,
+#'                                                       surveyDate=surveyDate,
+#'                                                       dateFormat=dateFormat,
+#'                                                       surveyConsent=surveyConsent)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -167,7 +171,11 @@ assessmentProductivity <- function(ds=NULL,
     summarize(NbSurvey=n())
   tmp$surveydate<-as.Date(tmp$surveydate, dateFormat)
   logf<-tmp[with(tmp, order(surveydate)), ]
-  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=surveydate, y=NbSurvey))
+  graph <- ggplot2::ggplot(tmp) +
+    ggplot2::geom_col(ggplot2::aes(x=surveydate, y=NbSurvey)) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.major.x=ggplot2::element_blank(), panel.grid.minor.x=ggplot2::element_blank()) +
+    ggplot2::labs(x = "Dates", y="Number of surveys")
   return(list(NULL,logf,NULL,graph))
 }
 
@@ -195,10 +203,10 @@ assessmentProductivity <- function(ds=NULL,
 #' dateFormat <- "%m/%d/%Y"
 #' surveyConsent <- "survey_consent"
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds,
-#'                                                            surveyDate,
-#'                                                            dateFormat,
-#'                                                            surveyConsent)
+#' list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds=ds,
+#'                                                            surveyDate=surveyDate,
+#'                                                            dateFormat=dateFormat,
+#'                                                            surveyConsent=surveyConsent)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -226,7 +234,11 @@ assessmentDailyValidSurveys <- function(ds=NULL,
   tmp <- tmp[with(tmp, order(surveydate)), ]
   logf <- reshape2::dcast(tmp,surveydate ~ surveyConsent, value.var="n")
   logf[is.na(logf)] <- 0
-  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=surveydate, y=n, fill=surveyConsent))
+  graph <- ggplot2::ggplot(tmp) +
+    ggplot2::geom_col(ggplot2::aes(x=surveydate, y=n, fill=surveyConsent)) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.major.x=ggplot2::element_blank(), panel.grid.minor.x=ggplot2::element_blank()) +
+    ggplot2::labs(x = "Dates", y="Number of surveys", fill="Consent status")
   return(list(NULL,logf,NULL,graph))
 }
 
@@ -262,14 +274,14 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #' surveyConsent <- "survey_consent"
 #' consentForValidSurvey <- "yes"                      # consent value for yes
 #'
-#' list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
-#'                                                        dsSite,
-#'                                                        sampleSizeTable,
-#'                                                        sampleSizeTableSite,
-#'                                                        sampleSizeTableTarget,
-#'                                                        sampleSizeTableAvailable,
-#'                                                        surveyConsent,
-#'                                                        consentForValidSurvey)
+#' list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds=ds,
+#'                                                  dsSite=dsSite,
+#'                                                  sampleSizeTable=sampleSizeTable,
+#'                                                  sampleSizeTableSite=sampleSizeTableSite,
+#'                                                  sampleSizeTableTarget=sampleSizeTableTarget,
+#'                                                  sampleSizeTableAvailable=sampleSizeTableAvailable,
+#'                                                  surveyConsent=surveyConsent,
+#'                                                  consentForValidSurvey=consentForValidSurvey)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -325,11 +337,11 @@ assessmentTrackingSheet <- function(ds=NULL,
 
   logf <- tmp
 
-  alertText <- "there is not enough points available to reach the sample size for:"
+  alertText <- "There is not enough points available to reach the sample size for:  \n"
   alertTextToBeDisplayed <- FALSE
   for(i in 1:length(tmp[,1])){
     if(((tmp[i,]$RemainingPoints - tmp[i,]$ToDo) < 0)){
-      alertText <- paste(alertText, tmp[i,1], sep = " ")
+      alertText <- paste(alertText, tmp[i,1], sep = "  \n")
       alertTextToBeDisplayed <- TRUE
     }
   }
@@ -364,6 +376,8 @@ assessmentTrackingSheet <- function(ds=NULL,
       breaks = tmp$x[tmp$variable == "ToDo"] + 0.2,
       labels = tmp$Site[tmp$variable == "ToDo"]) +
     ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.major.y=ggplot2::element_blank()) +
+    ggplot2::labs(x = "Sites", y="Number of surveys", fill="Categories") +
     ggplot2::coord_flip()
 
   return(list(NULL,logf,alertText,graph))
