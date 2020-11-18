@@ -4,18 +4,6 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//index.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/GenerateRmd.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/ReportWrapper.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SamplePts.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SampleSize.html</loc>
-  </url>
-  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/admin.html</loc>
   </url>
   <url>
@@ -32,6 +20,9 @@
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentTrackingSheet.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorErrorsDashboard.html</loc>
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorIsLazy.html</loc>
@@ -52,7 +43,7 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/hfcApp.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/hfc_projectinit.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/hfcProjectInit.html</loc>
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isInterviewAtTheSamplePoint.html</loc>
@@ -91,7 +82,16 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isUniqueIDMissing.html</loc>
   </url>
   <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/NotIn.html</loc>
+  </url>
+  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/piechart.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SamplePts.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SampleSize.html</loc>
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/sample_dataset.html</loc>
@@ -112,6 +112,18 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveyOutliers.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveySmallValues.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC1.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC2.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC3.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC4.html</loc>
   </url>
 </urlset>

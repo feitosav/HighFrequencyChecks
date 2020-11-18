@@ -2,21 +2,19 @@
 % Please edit documentation in R/functions.R
 \name{piechart}
 \alias{piechart}
-\title{Create a pie chart with ggplot}
+\title{Create a donut chart with ggplot}
 \usage{
-piechart(data, mapping)
+piechart(data, graphTitle)
 }
 \arguments{
 \item{data}{dataset as a data.frame object}
 
-\item{mapping}{aes paramters}
+\item{graphTitle}{aes paramters}
 }
 \value{
 a ggplot object
 }
 \description{
-This function allow to create a pie chart with ggplot.
+This function allow to create a donut chart with ggplot.
 }
-\author{
-https://ggplot2-book.org/programming.html
-}
+\keyword{internal}
