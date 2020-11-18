@@ -65,7 +65,14 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/unhcr/HighFrequencyChecks/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -82,7 +89,7 @@
       <h1 data-toc-skip>4. Going further</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/unhcr/HighFrequencyChecks/blob/master/vignettes/HFC4.Rmd"><code>vignettes/HFC4.Rmd</code></a></small>
       <div class="hidden name"><code>HFC4.Rmd</code></div>
 
     </div>
@@ -137,7 +144,7 @@
 <li>surveyOtherValues</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://unhcr.github.io/HighFrequencyChecks/docs/">HighFrequencyChecks</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/unhcr/HighFrequencyChecks">HighFrequencyChecks</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## Loading required package: gsubfn</code></pre>
 <pre><code>## Loading required package: proto</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -264,7 +271,7 @@
 <p>The purpose of the High Frequency Checks is to assess the quality of the data collected on a periodic basis. But you may not want to re-run all the checks on the full dataset as it may be difficult to identify the new mistakes or questions to be raised.</p>
 <p>A good way to avoid this is to subset the dataset according of the data collection day.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://unhcr.github.io/HighFrequencyChecks/docs/">HighFrequencyChecks</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/unhcr/HighFrequencyChecks">HighFrequencyChecks</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span>
 <span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"main.csv"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">previousMain</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"previousMain.csv"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
@@ -303,7 +310,7 @@
 <a href="#changing-the-purpose-of-a-function" class="anchor"></a>Changing the purpose of a function</h3>
 <p>Even if functions have a pre-defined purpose, it is possible to imagine using them (or at least some of them) to generate a different report. For example we could be interested by knowing the percentage of consentment for the survey according to the different site where we are doing the data collection. It could be useful to highlight some difference and maybe some site where people are less enclined to answer the survey (and where we may plan for contingency, like having a lower CI or higher ME, or changing the way we will analysed the data…). To do so, we can use the enumeratorSurveysConsent function asking to give us the result not by enumerator, but by site</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://unhcr.github.io/HighFrequencyChecks/docs/">HighFrequencyChecks</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/unhcr/HighFrequencyChecks">HighFrequencyChecks</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span>
 <span class="co">## Example on the dataset included in the package</span>
 <span class="co">## First we remove all the status which are different from 'yes' or 'no' (not eligible for example is </span>
