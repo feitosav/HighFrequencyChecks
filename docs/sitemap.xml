@@ -4,6 +4,15 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//index.html</loc>
   </url>
   <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/NotIn.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SamplePts.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SampleSize.html</loc>
+  </url>
+  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/admin.html</loc>
   </url>
   <url>
@@ -82,16 +91,7 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isUniqueIDMissing.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/NotIn.html</loc>
-  </url>
-  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/piechart.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SamplePts.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SampleSize.html</loc>
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/sample_dataset.html</loc>

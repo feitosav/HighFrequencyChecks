@@ -1,5 +1,5 @@
 ---
-title: "1. purpose of the High Frequency Checks"
+title: "1. Purpose of the High Frequency Checks"
 always_allow_html: yes
 header-includes:
 - \usepackage{pdflscape}
@@ -10,7 +10,7 @@ output:
     toc: yes
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{1. purpose of the High Frequency Checks}
+  %\VignetteIndexEntry{1. Purpose of the High Frequency Checks}
   %\VignetteEngine{knitr::rmarkdown}
 geometry: margin=0.5in
 fontsize: 10pt

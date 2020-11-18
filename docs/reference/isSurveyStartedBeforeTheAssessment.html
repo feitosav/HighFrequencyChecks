@@ -87,7 +87,16 @@ There is an option to automatically mark for deletion the surveys which have sta
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HFC.html">High Frequency Checks, a template for data quality monitoring</a>
+      <a href="../articles/HFC1.html">Purpose of the High Frequency Checks</a>
+    </li>
+    <li>
+      <a href="../articles/HFC2.html">Example of a High Frequecy Check document generated form the Shiny interface</a>
+    </li>
+    <li>
+      <a href="../articles/HFC3.html">Example of a more tabular High Frequecy Check document</a>
+    </li>
+    <li>
+      <a href="../articles/HFC4.html">Going further</a>
     </li>
   </ul>
 </li>
@@ -197,8 +206,10 @@ There is an option to automatically mark for deletion the surveys which have sta
                                                    deleteIsSurveyStartedBeforeTheAssessment <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] enumerator_id X_uuid        survey_start 
-#&gt; &lt;0 rows&gt; (or 0-length row.names)</div></pre>
+</div><div class='output co'>#&gt;    enumerator_id                               X_uuid
+#&gt; 19            73 46fc2ca2-995a-4e8f-a15f-d34e4f674446
+#&gt;                  survey_start
+#&gt; 19 2018-11-11T09:35:07.585+06</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -9,8 +9,14 @@ navbar:
   left:
   - text: "Articles"
     menu:
-     - text: High Frequency Checks, a template for data quality monitoring
-       href: articles/HFC.html
+     - text: Purpose of the High Frequency Checks
+       href: articles/HFC1.html
+     - text: Example of a High Frequecy Check document generated form the Shiny interface
+       href: articles/HFC2.html
+     - text: Example of a more tabular High Frequecy Check document
+       href: articles/HFC3.html
+     - text: Going further
+       href: articles/HFC4.html
   - text: News
     href: news/index.html
   - text: Reference

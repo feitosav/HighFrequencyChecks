@@ -20,7 +20,7 @@ The packages includes a series of controls calling for:
    
 ## Usage
 
-The package [vignette](articles/HFC.html) offers introduce the main functions in the package.
+The package [first vignette](articles/HFC1.html) offers introduce the main functions in the package.
 
 Install from github with `devtools::install_github("unhcr/HighFrequencyChecks")`.
 
